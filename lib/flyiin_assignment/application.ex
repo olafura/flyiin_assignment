@@ -8,8 +8,6 @@ defmodule FlyiinAssignment.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
-      FlyiinAssignment.Repo,
       # Start the endpoint when the application starts
       FlyiinAssignmentWeb.Endpoint
       # Starts a worker by calling: FlyiinAssignment.Worker.start_link(arg)

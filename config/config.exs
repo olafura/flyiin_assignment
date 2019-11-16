@@ -7,9 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :flyiin_assignment,
-  ecto_repos: [FlyiinAssignment.Repo]
-
 # Configures the endpoint
 config :flyiin_assignment, FlyiinAssignmentWeb.Endpoint,
   url: [host: "localhost"],
