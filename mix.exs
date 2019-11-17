@@ -40,7 +40,7 @@ defmodule FlyiinAssignment.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:exml, "~> 0.1.1"}
+      {:sweet_xml, "~> 0.6.6"}
     ]
   end
 
