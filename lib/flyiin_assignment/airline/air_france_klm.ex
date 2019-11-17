@@ -1,7 +1,8 @@
 defmodule FlyiinAssignment.Airline.AirFranceKLM do
+  require Logger
   import SweetXml
 
-  def get_price() do
+  def get_price(travel_agency, airline, origin, departure_date, destination) do
     body = """
       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
         <soapenv:Header/>
@@ -11,15 +12,15 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
             <Party>
               <Sender>
                 <TravelAgencySender>
-                  <Name>Test</Name>
-                  <PseudoCity>PARMM211L</PseudoCity>
-                  <IATA_Number>12345675</IATA_Number>
-                  <AgencyID>id</AgencyID>
+                  <Name>#{travel_agency.name}</Name>
+                  <PseudoCity>#{travel_agency.city}</PseudoCity>
+                  <IATA_Number>#{travel_agency.iata_number}</IATA_Number>
+                  <AgencyID>#{travel_agency.id}</AgencyID>
                 </TravelAgencySender>
               </Sender>
               <Recipient>
                 <ORA_Recipient>
-                  <AirlineID>AF</AirlineID>
+                  <AirlineID>#{airline}</AirlineID>
                 </ORA_Recipient>
               </Recipient>
             </Party>
@@ -27,11 +28,11 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
               <OriginDestinations>
                 <OriginDestination>
                   <Departure>
-                    <AirportCode>MUC</AirportCode>
-                    <Date>2019-08-15</Date>
+                    <AirportCode>#{origin}</AirportCode>
+                    <Date>#{departure_date}</Date>
                   </Departure>
                   <Arrival>
-                    <AirportCode>LHR</AirportCode>
+                    <AirportCode>#{destination}</AirportCode>
                   </Arrival>
                 </OriginDestination>
               </OriginDestinations>
@@ -59,8 +60,30 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
       Application.get_env(:flyiin_assignment, __MODULE__) |> Map.new()
 
     with {:ok, %Mojito.Response{body: response_body, status_code: 200}}
-         when bit_size(response_body) > 0 <- Mojito.request(:post, url, headers, body),
-         doc <- parse(response_body) do
+         when bit_size(response_body) > 0 <- Mojito.request(:post, url, headers, body) do
+      process_response(response_body)
+    else
+      other ->
+        Logger.error("AirFranceKLM error with request: #{inspect(other)}")
+        {:error, "Error with request"}
     end
+  end
+
+  def process_response(body) do
+    with {:parse, doc} when is_tuple(doc) <- {:parse, parse(body)},
+         {:error_check, nil} <- {:error_check, xpath(doc, ~x"//Errors/Error/@ShortText")} do
+      {:ok, doc}
+    else
+      {:parse, error} ->
+        Logger.error("AirFranceKLM parsing error: #{inspect(error)}")
+        {:error, "Parsing error"}
+      {:error_check, error} ->
+        Logger.error("AirFranceKLM action error: #{inspect(error)}")
+        {:error, error}
+    end
+  catch
+    :exit, value ->
+      Logger.error("AirFranceKLM parsing error: #{inspect(value)}")
+      {:error, "Parsing error"}
   end
 end
