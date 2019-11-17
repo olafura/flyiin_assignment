@@ -77,6 +77,7 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
       {:parse, error} ->
         Logger.error("AirFranceKLM parsing error: #{inspect(error)}")
         {:error, "Parsing error"}
+
       {:error_check, error} ->
         Logger.error("AirFranceKLM action error: #{inspect(error)}")
         {:error, error}
