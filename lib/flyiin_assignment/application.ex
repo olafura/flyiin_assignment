@@ -8,10 +8,8 @@ defmodule FlyiinAssignment.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the endpoint when the application starts
+      {Task.Supervisor, name: FlyiinAssignment.TaskSupervisor},
       FlyiinAssignmentWeb.Endpoint
-      # Starts a worker by calling: FlyiinAssignment.Worker.start_link(arg)
-      # {FlyiinAssignment.Worker, arg},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
