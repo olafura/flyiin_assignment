@@ -69,6 +69,7 @@ config :flyiin_assignment, FlyiinAssignment.Airline.AirFranceKLM,
   url: "https://ndc-rct.airfranceklm.com/passenger/distribmgmt/001448v01/EXT"
 
 config :flyiin_assignment, FlyiinAssignment.Airline.BritishAirways,
+  travel_agency: %{name: "test agent", city: "", iata_number: "00002004", id: "test agent"},
   headers: [
     {"SOAPAction", "AirShoppingV01"},
     {"Content-Type", "application/xml"},
