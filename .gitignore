@@ -28,3 +28,6 @@ flyiin_assignment-*.tar
 /priv/static/
 
 *.xml
+
+# Ignore .env file to make sure the setup is correct
+.env
