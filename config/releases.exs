@@ -1,5 +1,13 @@
 import Config
 
+config :flyiin_assignment, FlyiinAssignmentWeb.Endpoint,
+  http: [port: {:system, "PORT"}],
+  url: [host: "localhost", port: {:system, "PORT"}],
+  server: true
+
+# Do not print debug messages in production
+config :logger, level: :info
+
 config :flyiin_assignment, FlyiinAssignment.Airline.AirFranceKLM,
   travel_agency: %{
     name: System.fetch_env!("AIR_FRANCE_KLM_TRAVEL_AGENT_NAME"),
@@ -28,4 +36,3 @@ config :flyiin_assignment, FlyiinAssignment.Airline.BritishAirways,
     {"Client-Key", System.fetch_env!("BRITISH_AIRWAYS_API_KEY")}
   ],
   url: System.fetch_env!("BRITISH_AIRWAYS_URL")
-
