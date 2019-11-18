@@ -1,6 +1,8 @@
 defmodule FlyiinAssignmentWeb.Router do
   use FlyiinAssignmentWeb, :router
 
+  # alias FlyiinAssignmentWeb.FindCheapestOffer 
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -15,6 +17,8 @@ defmodule FlyiinAssignmentWeb.Router do
 
   scope "/", FlyiinAssignmentWeb do
     pipe_through :browser
+
+    get "/findCheapestOffer", FindCheapestOffer, :show
   end
 
   # Other scopes may use custom stacks.
