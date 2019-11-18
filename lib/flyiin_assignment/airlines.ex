@@ -13,9 +13,22 @@ defmodule FlyiinAssignment.Airlines do
         %{travel_agency: travel_agency} =
           Application.get_env(:flyiin_assignment, module) |> Map.new()
 
-        module.get_price(travel_agency, airline_code, origin, departure_date, destination)
+        {airline_code,
+         module.get_price(travel_agency, airline_code, origin, departure_date, destination)}
       end)
     end)
     |> Task.yield_many()
+    |> Enum.map(fn
+      {_task, {:ok, {airline_code, {:ok, result}}}} -> {airline_code, result}
+      {_task, {:ok, {_airline_code, error}}} -> error
+      {_task, error} -> error
+    end)
+  end
+
+  def get_cheapest_offer(origin, departure_date, destination) do
+    get_prices(origin, departure_date, destination)
+    |> Enum.reject(&match?({:error, _}, &1))
+    |> Enum.sort_by(fn {_, %{total: total}} -> total end)
+    |> List.first()
   end
 end

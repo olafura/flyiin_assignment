@@ -72,7 +72,12 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
   def process_response(body) do
     with {:parse, doc} when is_tuple(doc) <- {:parse, parse(body)},
          {:error_check, nil} <- {:error_check, xpath(doc, ~x"//Errors/Error/@ShortText")} do
-      {:ok, doc}
+      new_response =
+        doc
+        |> xpath(~x"//AirlineOffers/Offer")
+        |> xmap(total: ~x"//TotalPrice/*/Total/text()"f)
+
+      {:ok, new_response}
     else
       {:parse, error} ->
         Logger.error("AirFranceKLM parsing error: #{inspect(error)}")

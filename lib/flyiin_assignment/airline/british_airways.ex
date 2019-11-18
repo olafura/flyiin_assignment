@@ -63,7 +63,12 @@ defmodule FlyiinAssignment.Airline.BritishAirways do
   def process_response(body) do
     with {:parse, doc} when is_tuple(doc) <- {:parse, parse(body)},
          {:error_check, nil} <- {:error_check, xpath(doc, ~x"//Errors/Error/@ShortText")} do
-      {:ok, doc}
+      new_response =
+        doc
+        |> xpath(~x"//AirlineOffers/AirlineOffer")
+        |> xmap(total: ~x"//TotalPrice/SimpleCurrencyPrice/text()"f)
+
+      {:ok, new_response}
     else
       {:parse, error} ->
         Logger.error("BritishAirways parsing error: #{inspect(error)}")
