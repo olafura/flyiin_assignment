@@ -26,9 +26,18 @@ defmodule FlyiinAssignment.Airlines do
   end
 
   def get_cheapest_offer(origin, departure_date, destination) do
-    get_prices(origin, departure_date, destination)
-    |> Enum.reject(&match?({:error, _}, &1))
-    |> Enum.sort_by(fn {_, %{total: total}} -> total end)
-    |> List.first()
+    prices = get_prices(origin, departure_date, destination)
+
+    result =
+      prices
+      |> Enum.reject(&match?({:error, _}, &1))
+      |> Enum.sort_by(fn {_, %{total: total}} -> total end)
+      |> List.first()
+
+    if is_nil(result) do
+      {:error, prices}
+    else
+      {:ok, result}
+    end
   end
 end
