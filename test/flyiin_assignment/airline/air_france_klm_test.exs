@@ -5,7 +5,9 @@ defmodule FlyiinAssignment.Airline.AirFranceKLMTest do
 
   @tag :external
   test "Test correct date" do
-    travel_agency = %{name: "test", city: "PARMM211L", iata_number: "12345675", id: "id"}
+    %{travel_agency: travel_agency} =
+      Application.get_env(:flyiin_assignment, AirFranceKLM) |> Map.new()
+
     airline = "AF"
     origin = "MUC"
     destination = "LHR"
@@ -18,7 +20,9 @@ defmodule FlyiinAssignment.Airline.AirFranceKLMTest do
 
   @tag :external
   test "Test incorrect date" do
-    travel_agency = %{name: "test", city: "PARMM211L", iata_number: "12345675", id: "id"}
+    %{travel_agency: travel_agency} =
+      Application.get_env(:flyiin_assignment, AirFranceKLM) |> Map.new()
+
     airline = "AF"
     origin = "MUC"
     destination = "LHR"

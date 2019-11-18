@@ -10,6 +10,7 @@ config :flyiin_assignment, FlyiinAssignmentWeb.Endpoint,
 config :logger, level: :warn
 
 config :flyiin_assignment, FlyiinAssignment.Airline.AirFranceKLM,
+  travel_agency: %{name: "test", city: "PARMM211L", iata_number: "12345675", id: "id"},
   headers: [
     {"SOAPAction",
      "\"http://www.af-klm.com/services/passenger/ProvideAirShopping/provideAirShopping\""},
