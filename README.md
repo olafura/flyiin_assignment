@@ -1,19 +1,15 @@
 # FlyiinAssignment
 
+This webservice provides the cheapest offer given origin, destination and departure date,
+for two airline groups: Air France-KLM and British Airways
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server`
+  * Get a token the soap services of Air France-KLM and British Airlines.
+  * Start Phoenix endpoint with `AIR_FRANCE_KLM_API_KEY=token BRITISH_AIRWAYS_API_KEY=token iex -S mix phx.server`
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Now you can try running:
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+    curl "http://localhost:4000/findCheapestOffer?origin=BER&destination=LHR&departureDate=`date -d +10days --iso-8601` 
 
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix

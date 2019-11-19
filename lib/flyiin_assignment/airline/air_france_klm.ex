@@ -1,8 +1,12 @@
 defmodule FlyiinAssignment.Airline.AirFranceKLM do
+  @moduledoc false
+
   require Logger
   import SweetXml
 
   def fetch_price(travel_agency, airline, origin, departure_date, destination) do
+    # TODO: Find way of generating the xml based rules, possible using xlst based
+    # on the different versions of the schema.
     body = """
       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
         <soapenv:Header/>

@@ -1,4 +1,10 @@
 defmodule FlyiinAssignment.Airlines do
+  @moduledoc """
+  Provides ways of fetching information from the supported airlines which
+  are Air France-KLM and British Airways. Through the open schema from
+  IATA regarding airshopping.
+  """
+
   alias FlyiinAssignment.Airline.{AirFranceKLM, BritishAirways}
 
   @airlines [
@@ -6,6 +12,9 @@ defmodule FlyiinAssignment.Airlines do
     {"BA", BritishAirways}
   ]
 
+  @doc """
+  Fetches the price information from all the supported airlines
+  """
   def fetch_prices(origin, departure_date, destination) do
     @airlines
     |> Enum.map(fn {airline_code, module} ->
@@ -25,6 +34,12 @@ defmodule FlyiinAssignment.Airlines do
     end)
   end
 
+  @doc """
+  Finds the cheapest offer given the available information the supported airlines.
+  If there are errors fetching information from some airline and there are other
+  offers it will ignore that error. If we can't find any offers it will return
+  any error we got.
+  """
   def find_cheapest_offer(origin, departure_date, destination) do
     prices = fetch_prices(origin, departure_date, destination)
 

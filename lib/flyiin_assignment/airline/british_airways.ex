@@ -1,4 +1,6 @@
 defmodule FlyiinAssignment.Airline.BritishAirways do
+  @moduledoc false
+
   require Logger
   import SweetXml
 

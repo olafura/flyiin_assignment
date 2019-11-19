@@ -10,7 +10,10 @@ defmodule FlyiinAssignment.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      docs: [
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -41,7 +44,8 @@ defmodule FlyiinAssignment.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:sweet_xml, "~> 0.6.6"},
-      {:mojito, "~> 0.5.0"}
+      {:mojito, "~> 0.5.0"},
+      {:ex_doc, "~> 0.21", only: :dev, runtime: false}
     ]
   end
 
