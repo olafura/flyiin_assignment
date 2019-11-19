@@ -15,6 +15,11 @@ defmodule FlyiinAssignment.Airlines do
   @doc """
   Fetches the price information from all the supported airlines
   """
+  @spec fetch_prices(
+          origin :: String.t(),
+          departure_date :: String.t(),
+          destination :: String.t()
+        ) :: [{String.t(), %{total: float()}} | {:error, String.t() | charlist()}]
   def fetch_prices(origin, departure_date, destination) do
     @airlines
     |> Enum.map(fn {airline_code, module} ->
@@ -40,6 +45,11 @@ defmodule FlyiinAssignment.Airlines do
   offers it will ignore that error. If we can't find any offers it will return
   any error we got.
   """
+  @spec find_cheapest_offer(
+          origin :: String.t(),
+          departure_date :: String.t(),
+          destination :: String.t()
+        ) :: {:ok, {String.t(), %{total: float()}}} | {:error, String.t() | charlist()}
   def find_cheapest_offer(origin, departure_date, destination) do
     prices = fetch_prices(origin, departure_date, destination)
 

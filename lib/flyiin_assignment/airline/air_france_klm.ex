@@ -4,6 +4,13 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
   require Logger
   import SweetXml
 
+  @spec fetch_price(
+          %{city: String.t(), iata_number: String.t(), id: String.t(), name: String.t()},
+          airline :: String.t(),
+          origin :: String.t(),
+          departure_date :: String.t(),
+          destination :: String.t()
+        ) :: {:ok, %{total: float}} | {:error, String.t() | charlist()}
   def fetch_price(travel_agency, airline, origin, departure_date, destination) do
     # TODO: Find way of generating the xml based rules, possible using xlst based
     # on the different versions of the schema.
@@ -73,6 +80,8 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
     end
   end
 
+  @spec process_response(body :: String.t()) ::
+          {:ok, %{total: float}} | {:error, String.t() | charlist()}
   def process_response(body) do
     with {:parse, doc} when is_tuple(doc) <- {:parse, parse(body)},
          {:error_check, nil} <- {:error_check, xpath(doc, ~x"//Errors/Error/@ShortText")} do
