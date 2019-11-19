@@ -15,7 +15,7 @@ defmodule FlyiinAssignment.Airline.AirFranceKLMTest do
     departure_date = today |> Date.add(10) |> Date.to_string()
 
     assert {:ok, _data} =
-             AirFranceKLM.get_price(travel_agency, airline, origin, departure_date, destination)
+             AirFranceKLM.fetch_price(travel_agency, airline, origin, departure_date, destination)
   end
 
   @tag :external
@@ -29,6 +29,6 @@ defmodule FlyiinAssignment.Airline.AirFranceKLMTest do
     departure_date = "1979-01-01"
 
     assert {:error, _error_message} =
-             AirFranceKLM.get_price(travel_agency, airline, origin, departure_date, destination)
+             AirFranceKLM.fetch_price(travel_agency, airline, origin, departure_date, destination)
   end
 end

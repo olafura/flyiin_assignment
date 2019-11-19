@@ -6,7 +6,7 @@ defmodule FlyiinAssignment.Airlines do
     {"BA", BritishAirways}
   ]
 
-  def get_prices(origin, departure_date, destination) do
+  def fetch_prices(origin, departure_date, destination) do
     @airlines
     |> Enum.map(fn {airline_code, module} ->
       Task.Supervisor.async(FlyiinAssignment.TaskSupervisor, fn ->
@@ -14,7 +14,7 @@ defmodule FlyiinAssignment.Airlines do
           Application.get_env(:flyiin_assignment, module) |> Map.new()
 
         {airline_code,
-         module.get_price(travel_agency, airline_code, origin, departure_date, destination)}
+         module.fetch_price(travel_agency, airline_code, origin, departure_date, destination)}
       end)
     end)
     |> Task.yield_many()
@@ -25,8 +25,8 @@ defmodule FlyiinAssignment.Airlines do
     end)
   end
 
-  def get_cheapest_offer(origin, departure_date, destination) do
-    prices = get_prices(origin, departure_date, destination)
+  def find_cheapest_offer(origin, departure_date, destination) do
+    prices = fetch_prices(origin, departure_date, destination)
 
     result =
       prices

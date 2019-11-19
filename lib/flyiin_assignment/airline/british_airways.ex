@@ -2,7 +2,7 @@ defmodule FlyiinAssignment.Airline.BritishAirways do
   require Logger
   import SweetXml
 
-  def get_price(travel_agency, _airline, origin, departure_date, destination) do
+  def fetch_price(travel_agency, _airline, origin, departure_date, destination) do
     body = """
       <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
         <s:Body xmlns="http://www.iata.org/IATA/EDIST">

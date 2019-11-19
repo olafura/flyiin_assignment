@@ -2,7 +2,7 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
   require Logger
   import SweetXml
 
-  def get_price(travel_agency, airline, origin, departure_date, destination) do
+  def fetch_price(travel_agency, airline, origin, departure_date, destination) do
     body = """
       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
         <soapenv:Header/>

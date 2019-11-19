@@ -10,7 +10,7 @@ defmodule FlyiinAssignmentWeb.FindCheapestOffer do
         "departureDate" => departure_date
       }) do
     with {:ok, {airline, %{total: amount}}} <-
-           Airlines.get_cheapest_offer(origin, departure_date, destination) do
+           Airlines.find_cheapest_offer(origin, departure_date, destination) do
       json(conn, %{"data" => %{"cheapestOffer" => %{"amount" => amount, "airline" => airline}}})
     else
       {:error, errors} ->

@@ -15,7 +15,13 @@ defmodule FlyiinAssignment.Airline.BritishAirwaysTest do
     departure_date = today |> Date.add(10) |> Date.to_string()
 
     assert {:ok, _data} =
-             BritishAirways.get_price(travel_agency, airline, origin, departure_date, destination)
+             BritishAirways.fetch_price(
+               travel_agency,
+               airline,
+               origin,
+               departure_date,
+               destination
+             )
   end
 
   @tag :external
@@ -29,6 +35,12 @@ defmodule FlyiinAssignment.Airline.BritishAirwaysTest do
     departure_date = "1979-01-01"
 
     assert {:error, _error_message} =
-             BritishAirways.get_price(travel_agency, airline, origin, departure_date, destination)
+             BritishAirways.fetch_price(
+               travel_agency,
+               airline,
+               origin,
+               departure_date,
+               destination
+             )
   end
 end
