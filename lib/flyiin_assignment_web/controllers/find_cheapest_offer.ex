@@ -1,4 +1,9 @@
 defmodule FlyiinAssignmentWeb.FindCheapestOffer do
+  @moduledoc """
+  Rest endpoint to find the cheapest offers based on origin, destination and departure date,
+  from all supported airlies.
+  """
+
   use FlyiinAssignmentWeb, :controller
   require Logger
 
@@ -9,12 +14,11 @@ defmodule FlyiinAssignmentWeb.FindCheapestOffer do
         "destination" => destination,
         "departureDate" => departure_date
       }) do
-    with {:ok, {airline, %{total: amount}}} <-
-           Airlines.find_cheapest_offer(origin, departure_date, destination) do
-      json(conn, %{"data" => %{"cheapestOffer" => %{"amount" => amount, "airline" => airline}}})
-    else
+    case Airlines.find_cheapest_offer(origin, departure_date, destination) do
+      {:ok, {airline, %{total: amount}}} ->
+        json(conn, %{"data" => %{"cheapestOffer" => %{"amount" => amount, "airline" => airline}}})
+
       {:error, errors} ->
-        IO.inspect(errors)
         json(conn, %{"errors" => errors |> Keyword.values() |> ensure_binaries()})
 
       other ->

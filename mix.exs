@@ -46,7 +46,8 @@ defmodule FlyiinAssignment.MixProject do
       {:sweet_xml, "~> 0.6.6"},
       {:mojito, "~> 0.5.0"},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
-      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
+      {:credo, "~> 1.1", only: [:dev]}
     ]
   end
 

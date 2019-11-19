@@ -12,7 +12,7 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
           destination :: String.t()
         ) :: {:ok, %{total: float}} | {:error, String.t() | charlist()}
   def fetch_price(travel_agency, airline, origin, departure_date, destination) do
-    # TODO: Find way of generating the xml based rules, possible using xlst based
+    # LOOK_INTO: Find way of generating the xml based rules, possible using xlst based
     # on the different versions of the schema.
     body = """
       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
@@ -70,10 +70,11 @@ defmodule FlyiinAssignment.Airline.AirFranceKLM do
     %{headers: headers, url: url} =
       Application.get_env(:flyiin_assignment, __MODULE__) |> Map.new()
 
-    with {:ok, %Mojito.Response{body: response_body, status_code: 200}}
-         when bit_size(response_body) > 0 <- Mojito.request(:post, url, headers, body) do
-      process_response(response_body)
-    else
+    case Mojito.request(:post, url, headers, body) do
+      {:ok, %Mojito.Response{body: response_body, status_code: 200}}
+      when bit_size(response_body) > 0 ->
+        process_response(response_body)
+
       other ->
         Logger.error("AirFranceKLM error with request: #{inspect(other)}")
         {:error, "Error with request"}

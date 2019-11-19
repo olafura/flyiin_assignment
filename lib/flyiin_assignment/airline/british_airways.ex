@@ -59,10 +59,11 @@ defmodule FlyiinAssignment.Airline.BritishAirways do
     %{headers: headers, url: url} =
       Application.get_env(:flyiin_assignment, __MODULE__) |> Map.new()
 
-    with {:ok, %Mojito.Response{body: response_body, status_code: 200}}
-         when bit_size(response_body) > 0 <- Mojito.request(:post, url, headers, body) do
-      process_response(response_body)
-    else
+    case Mojito.request(:post, url, headers, body) do
+      {:ok, %Mojito.Response{body: response_body, status_code: 200}}
+      when bit_size(response_body) > 0 ->
+        process_response(response_body)
+
       other ->
         Logger.error("BritishAirways error with request: #{inspect(other)}")
         {:error, "Error with request"}
